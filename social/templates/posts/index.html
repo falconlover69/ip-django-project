@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+    <h1 class="text-senter mb-3">Social Posts</h1>
+    {% if latest_posts_list %}
+        {% for post in latest_posts_list %}
+            <div class="card mb-3">
+                <div class="card-body">
+                    <p class="lead card-title">{{post.title}}</p>
+                    <p class="card-text">Created at: {{post.created_at}}</p>
+                    <a href="{% url 'posts:detail' post.id %}" class="text-secondary" style="margin-right: 20px;">See all..</a>
+                    <a href="{% url 'posts:results' post.id %}" class="text-secondary">See Rating</a>
+                </div>
+            </div>
+        {% endfor %}
+    {% else %}
+        <p>No Posts availabel</p>
+    {% endif %}
+
+{% endblock %}

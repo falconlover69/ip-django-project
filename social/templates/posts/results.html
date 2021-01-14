@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+{% block content %}
+<h1 class="mb-5 text-center">{{ post.title }}</h1>
+
+<ul class="list-group mb-5">
+    {% for choice in post.rating_set.all %}
+    <li class="list-group-item">
+        Likes: {{ choice.likes }} 
+        <!-- <span class="badge badge-success float-right">
+            Dislikes{{ choice.dislikes }}
+        </span> -->
+    </li>
+    <li class="list-group-item">
+        Dislikes: {{ choice.dislikes }}
+    </li>
+    {% endfor %}
+</ul>
+
+<a href="{% url 'posts:index' %}" class="btn btn-success">Back to Posts</a>
+<a href="{% url 'posts:detail' post.id %}" class="btn btn-dark">Vote again?</a>
+{% endblock %}
