@@ -3,6 +3,7 @@ from django.contrib import admin
 # Register your models here.
 
 from .models import Posts,Rating
+from import_export.admin import ImportExportModelAdmin
 
 admin.site.site_header = "Social Network Admin Panel"
 admin.site.site_title = "Social Network Area"
@@ -12,7 +13,8 @@ class RatingInLine(admin.TabularInline):
     model = Rating
     extra = 0
 
-class PostsAdmin(admin.ModelAdmin):
+@admin.register(Posts)
+class PostsAdmin(ImportExportModelAdmin):
     fieldsets = [
         ('Post info', {'fields': ['by','title','body']}),
         ('Date Info', {'fields': ['created_at'], 'classes': ['collapse']}),
@@ -20,9 +22,9 @@ class PostsAdmin(admin.ModelAdmin):
     inlines = [RatingInLine]
     
     list_filter = ('rating',)
-    search_fields = ('id',)
+    search_fields = ('title',)
 
 # admin.site.register(Posts)
-admin.site.register(Posts, PostsAdmin)
+# admin.site.register(Posts, PostsAdmin)
 
 
