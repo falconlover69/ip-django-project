@@ -14,13 +14,15 @@ class RatingInLine(admin.TabularInline):
 
 class PostsAdmin(admin.ModelAdmin):
     fieldsets = [
-        (None, {'fields': ['title','body']}),
+        ('Post info', {'fields': ['by','title','body']}),
         ('Date Info', {'fields': ['created_at'], 'classes': ['collapse']}),
     ]
     inlines = [RatingInLine]
+    
+    list_filter = ('rating',)
+    search_fields = ('id',)
 
 # admin.site.register(Posts)
-# admin.site.register(Rating)
 admin.site.register(Posts, PostsAdmin)
 
 

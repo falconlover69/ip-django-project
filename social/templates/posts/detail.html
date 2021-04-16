@@ -14,14 +14,8 @@
 <form action="{% url 'posts:vote' post.id %}" method="post">
     {% csrf_token %}
     {% for choice in post.rating_set.all %}
-    <div class="form-check">
-        <input type="radio" name="like" id="1" value="1">
-        <label for="1">Like</label>
-
-        <input type="radio" name="dislike" id="2" value="1">
-        <label for="2">Dislike</label>
-    </div>
+    <button type="submit" name="like" value={{choice.id}} class="btn btn-success btn-md btn-block mt-4">Like</button>
+    <button type="submit" name="dislike" value={{choice.id}} class="btn btn-danger btn-md btn-block mt-4">Dislike</button>
     {% endfor %}
-    <input type="submit" value="vote" class="btn btn-success btn-md btn-block mt-4">
 </form>
 {% endblock %}

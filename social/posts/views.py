@@ -29,27 +29,19 @@ def results(request, post_id):
     return render(request, 'posts/results.html', { 'post': post })
 
 
-#  Vote for a question choice
+#  Vote for a choice
 def vote(request, post_id):
     post = get_object_or_404(Posts, pk=post_id)
-    try:
-        selected_like = post.rating_set.get(pk=request.POST['like'])
+    # print('REQUEST:::', request.POST['like'])
+    
+    if( 'like' in request.POST ):
+        selected_like = post.rating_set.get(pk=int(request.POST['like']))
+        selected_like.likes += 1
+        selected_like.save()
         print(selected_like)
-        selected_dislike = post.rating_set.get(pk=request.POST['dislike'])
-    except (KeyError, Rating.DoesNotExist):
-        # Redisplay the question voting form.
-        return render(request, 'posts/detail.html', {
-            'post': post,
-            'error_message': "You didn't select anything.",
-        })
-    else:
-        if(selected_like):
-           selected_like.likes += 1
-           selected_like.save()
-        else:
-            selected_dislike += 1 
-            selected_dislike.save()
-        # Always return an HttpResponseRedirect after successfully dealing
-        # with POST data. This prevents data from being posted twice if a
-        # user hits the Back button.
-        return HttpResponseRedirect(reverse('posts:results', args=(post.id,)))
+    elif ('dislike' in request.POST):
+        selected_dislike = post.rating_set.get(pk=int(request.POST['dislike']))
+        selected_dislike.dislikes += 1
+        selected_dislike.save()
+        print(selected_dislike)
+    return HttpResponseRedirect(reverse('posts:results', args=(post.id,)))
